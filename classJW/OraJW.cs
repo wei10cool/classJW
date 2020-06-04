@@ -51,6 +51,36 @@ namespace classJW
             }
 
         }
+        public DataSet GetDataSet_pra(string sqlString, List<ParameterSP> parameterSPs)
+        {
+            try
+            {
+                conn.Open();
+                OracleDataAdapter da = new OracleDataAdapter(sqlString, conn); ;
+                //--Pra
+                //Input 1 Output 2 InputOutput 3 ReturnValue 6
+                foreach (var item in parameterSPs)
+                {
+                    da.SelectCommand.Parameters.Add(new OracleParameter(item.praName, item.praValue)
+                    { Direction = item.praType });
+                }
+                da.SelectCommand.BindByName = true;//解決參數順序問題
+
+                DataSet ds = new DataSet();
+                da.Fill(ds);
+                da.Dispose();
+                return ds;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
 
         /// <summary>
         /// 執行SQL-只需要知道成功(>=0)或失敗(-1)

@@ -18,7 +18,7 @@ namespace classJW
             DateTime datetime = new DateTime(yy,mm,dd);
             TaiwanCalendar taiwanCalendar = new TaiwanCalendar();
 
-            return string.Format("{0}{1}{2}",
+            return string.Format("{0}{1:00}{2}",
                 taiwanCalendar.GetYear(datetime),
                 datetime.Month,
                 datetime.Day);

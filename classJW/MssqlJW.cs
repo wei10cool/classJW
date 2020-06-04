@@ -74,6 +74,7 @@ namespace classJW
                 
                 DataSet ds = new DataSet();
                 da.Fill(ds);
+                da.Dispose();
                 return ds;
             }
             catch (Exception ex)
