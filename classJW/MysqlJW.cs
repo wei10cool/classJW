@@ -1,12 +1,8 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MySql;
-using MySql.Data.MySqlClient;
-
+//MySql.Data 8.0.21
 namespace classJW
 {
     public class MysqlJW

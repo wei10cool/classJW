@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-
+//Oracle.ManagedDataAccess 19.5.0
 
 namespace classJW
 {
@@ -10,7 +10,7 @@ namespace classJW
     public class OraJW:IDisposable
     {
         OracleConnection conn;
-
+        
         public class ParameterSP
         {
             /// <summary>
@@ -21,6 +21,10 @@ namespace classJW
             /// 參數值
             /// </summary>
             public object praValue { get; set; }//任何物件
+            /// <summary>
+            /// 資料欄位型別
+            /// </summary>
+            public OracleDbType praOracleDbType { get; set; }
             /// <summary>
             /// 參數方向,default InputOutput
             /// </summary>
@@ -61,8 +65,17 @@ namespace classJW
                 //Input 1 Output 2 InputOutput 3 ReturnValue 6
                 foreach (var item in parameterSPs)
                 {
-                    da.SelectCommand.Parameters.Add(new OracleParameter(item.praName, item.praValue)
-                    { Direction = item.praType });
+                    
+                    if (item.praOracleDbType != 0)
+                    {
+                        da.SelectCommand.Parameters.Add(new OracleParameter(item.praName, item.praValue)
+                         { Direction = item.praType,OracleDbType=item.praOracleDbType });
+                    }
+                    else
+                    {
+                        da.SelectCommand.Parameters.Add(new OracleParameter(item.praName, item.praValue)
+                        { Direction = item.praType });
+                    }
                 }
                 da.SelectCommand.BindByName = true;//解決參數順序問題
 
@@ -128,8 +141,17 @@ namespace classJW
                 //Input 1 Output 2 InputOutput 3 ReturnValue 6
                 foreach (var item in parameterSPs)
                 {
-                    cmd.Parameters.Add(new OracleParameter(item.praName, item.praValue)
-                    { Direction = item.praType });
+                    if (item.praOracleDbType != 0)
+                    {
+                        cmd.Parameters.Add(new OracleParameter(item.praName, item.praValue)
+                        { Direction = item.praType, OracleDbType = item.praOracleDbType });
+                    }
+                    else
+                    {
+                        cmd.Parameters.Add(new OracleParameter(item.praName, item.praValue)
+                        { Direction = item.praType });
+                    }
+                       
                 }
                 cmd.BindByName = true;//解決參數順序問題
                 //--
@@ -169,8 +191,16 @@ namespace classJW
                 //Input 1 Output 2 InputOutput 3 ReturnValue 6
                 foreach (var item in parameterSPs)
                 {
-                    cmd.Parameters.Add(new OracleParameter(item.praName, item.praValue)
-                    { Direction = item.praType });
+                    if ( item.praOracleDbType != 0)
+                    {
+                        cmd.Parameters.Add(new OracleParameter(item.praName, item.praValue)
+                        { Direction = item.praType, OracleDbType = item.praOracleDbType });
+                    }
+                    else
+                    {
+                        cmd.Parameters.Add(new OracleParameter(item.praName, item.praValue)
+                        { Direction = item.praType});
+                    }
                 }
                 //--
                 //int result  = cmd.ExecuteNonQuery();
